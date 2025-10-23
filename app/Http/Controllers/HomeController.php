@@ -9,9 +9,6 @@ class HomeController extends Controller
 {
     public function listarPublicacoes()
     {
-        $publicacoes = Publicacao::all();
-        
-        return view('publicacao.index', compact('publicacoes'));
         return view('home');
     }
 }
