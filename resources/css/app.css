@@ -2,12 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
+body {
     display: grid;
-    grid-template-columns: repeat(3, 200px);
-}
-
-footer {
-    display: grid;
-    grid-template-columns: 100px;
+    grid-template-columns: ;
 }
