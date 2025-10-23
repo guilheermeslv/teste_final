@@ -18,7 +18,7 @@
         <!-- Coluna 1 -->
             <div class="col-md-3 text-center py-4 mt-3">
                 <img src="{{ asset($empresa->logo) }}" alt="Sabor do Brasil">
-                <p class="h3 mt-3">Sabor do Brasil</p>
+                <p class="h3 mt-3">{{ $empresa->nome }}</p>
                 <hr style="border: 2px solid; border-color: #D97014; width: 70%">
                 <div class="d-flex d-flex justify-content-center">
                     <p class="mr-5 h5">9<br>Quantidade de <br> likes</p>
@@ -28,17 +28,40 @@
             
         <!-- Coluna 2 -->
             <div class="col-md-6 py-4 border-left bg-light border-right">
+
+            <!-- Header de publicações -->
                 <div>
                     <p class="h1 text-center">Publicações</p>
+                    <hr style="border: 2px solid; border-color: #D97014">
                 </div>
-                <hr style="border: ">
-            </div>
+
+            <!-- Imagens das publicações -->
+                @foreach ($publicacoes as $publicacao)
+                <div class="card p-2" style="border-radius: 10px">
+                    <p class="h2">{{ $publicacao->titulo_prato }}</p>
+                    <div class="text-center">
+                    <img src="{{ asset($publicacao->foto) }}">
+                    </div>
+                    <div class="d-flex h5 justify-content-between p-1">
+                        <p>{{ $publicacao->local }}</p>
+                        <p>{{ $publicacao->cidade}}</p>
+                    </div>
+                    <div class="d-flex">
+                        <img src="{{ asset('flecha_cima_vazia.svg') }}" alt="">
+                            <p class="h3 ml-2">2</p>
+                        <img class="ml-3" src="{{ asset('flecha_baixo_vazia.svg') }}" alt="">
+                            <p class="h3 ml-2">1</p>
+                        <img style="margin-left: 570px" src="{{ asset('chat.svg') }}" alt="">
+                            <p class="h3 ml-2">4</p>
+                    </div>
+                </div>
+                @endforeach
+                </div>
 
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
-                <a href="">Entrar</a>            
+                <button type="button" class="h4" id="btnEntrar">Entrar</button>
             </div>
         </div>
-    </div>
-</body
+</body>
 </html>

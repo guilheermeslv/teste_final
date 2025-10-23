@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 
-Route::get('/', [HomeController::class, 'listarPublicacoes'])->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
