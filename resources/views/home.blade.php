@@ -42,10 +42,13 @@
                     <div class="text-center">
                     <img src="{{ asset($publicacao->foto) }}">
                     </div>
+                <!-- Local e cidade -->
                     <div class="d-flex h5 justify-content-between p-1">
                         <p>{{ $publicacao->local }}</p>
                         <p>{{ $publicacao->cidade}}</p>
                     </div>
+
+                <!-- Ícones de like, dislike e comentário -->
                     <div class="d-flex">
                         <img src="{{ asset('flecha_cima_vazia.svg') }}" alt="">
                             <p class="h3 ml-2">2</p>
@@ -60,8 +63,34 @@
 
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
-                <button type="button" class="h4" id="btnEntrar">Entrar</button>
-            </div>
+                <button type="button" id="btnEntrar">Entrar</button>
+        <!-- Modal de login -->
+            <dialog>
+                <div class="justify-content-center">
+                    <h1>Login</h1>
+                </div>
+                <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <!-- Email -->
+                
+                    <div class="form-group">
+                        <x-text-input id="email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Digite seu email"/>
+                        <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                    </div>
+
+                <!-- Senha -->
+                    <div class="mt-2 form-group">
+                        <x-text-input id="password" class="block mt-1 w-full form-control" type="password" name="password" required autocomplete="current-password" placeholder="Digite sua senha"/>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+                    </div>
+                <!-- Botões Cancelar e Entrar -->
+                    <div class="d-flex justify-between">
+                        <button id="btnFormCancelar">Cancelar</button>
+                        <button id="btnFormEntrar">Entrar</button>
+                    </div>
+                </form>
+                <script src="{{ asset('js/home.js') }}"></script>
+            </dialog>
         </div>
 </body>
 </html>

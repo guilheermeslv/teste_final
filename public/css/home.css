@@ -1,7 +1,35 @@
+dialog::backdrop {
+    background-color: rgb(0 0 0 / .6);
+}
+
+dialog {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em black;
+    width: 30%;
+}
+
 #btnEntrar {
     padding: 5px 100px 5px 100px; 
     background-color: #D97014;
     border: none;
     color: white; 
     border-radius: 10px;
+}
+
+#btnFormEntrar {
+    background-color: #D97014;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 70px 2px 70px;
+}
+
+#btnFormCancelar {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    border: 2px solid #D97014;
+    border-radius: 8px;
+    padding: 2px 70px 2px 70px;
+    margin-right: 50px;
 }
