@@ -38,14 +38,14 @@
             <!-- Imagens das publicações -->
                 @foreach ($publicacoes as $publicacao)
                 <div class="card p-2" style="border-radius: 10px">
-                    <p class="h2">{{ $publicacao->titulo_prato }}</p>
+                    <p class="h2"><strong>{{ $publicacao->titulo_prato }}</strong></p>
                     <div class="text-center">
                     <img src="{{ asset($publicacao->foto) }}">
                     </div>
                 <!-- Local e cidade -->
-                    <div class="d-flex h5 justify-content-between p-1">
-                        <p>{{ $publicacao->local }}</p>
-                        <p>{{ $publicacao->cidade}}</p>
+                    <div class="d-flex h5 justify-content-between p-1 mt-1">
+                        <p><strong>{{ $publicacao->local }}</strong></p>
+                        <p><strong>{{ $publicacao->cidade}}</strong></p>
                     </div>
 
                 <!-- Ícones de like, dislike e comentário -->
@@ -66,15 +66,13 @@
                 <button type="button" id="btnEntrar">Entrar</button>
         <!-- Modal de login -->
             <dialog>
-                <div class="justify-content-center">
-                    <h1>Login</h1>
-                </div>
+                    <h4 class="text-center mb-3">Login</h4>
                 <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <!-- Email -->
                 
                     <div class="form-group">
-                        <x-text-input id="email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Digite seu email"/>
+                        <x-text-input id="email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Digite seu e-mail"/>
                         <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                     </div>
 
@@ -84,7 +82,7 @@
                         <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                     </div>
                 <!-- Botões Cancelar e Entrar -->
-                    <div class="d-flex justify-between">
+                    <div class="d-flex justify-between mb-2 ">
                         <button id="btnFormCancelar">Cancelar</button>
                         <button id="btnFormEntrar">Entrar</button>
                     </div>
