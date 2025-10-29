@@ -1,10 +1,11 @@
-const button = document.querySelector("button")
-const modal = document.querySelector("dialog")
+const modal = document.querySelector("dialog");
+const btnFormCancelar = document.getElementById("btnFormCancelar");
+const btnEntrar = document.getElementById("btnEntrar");
 
-button.onclick = function () {
+btnEntrar.addEventListener("click", function() {
     modal.showModal()
-}
+})
 
-buttonClose.onclick = function () {
+btnFormCancelar.addEventListener("click", function() {
     modal.close()
-}
+})

@@ -81,10 +81,10 @@
                         <x-text-input id="password" class="block mt-1 w-full form-control" type="password" name="password" required autocomplete="current-password" placeholder="Digite sua senha"/>
                         <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                     </div>
-                <!-- Botões Cancelar e Entrar -->
+                <!-- Botões Cancelar e Logar -->
                     <div class="d-flex justify-between mb-2 ">
                         <button id="btnFormCancelar">Cancelar</button>
-                        <button id="btnFormEntrar">Entrar</button>
+                        <button id="btnFormLogin">Entrar</button>
                     </div>
                 </form>
                 <script src="{{ asset('js/home.js') }}"></script>
