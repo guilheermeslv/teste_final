@@ -6,5 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Avaliacao extends Model
 {
-    //
+    protected $table = 'avaliacoes';
+    protected $fillable = ['like', 'dislike', 'publicacao_id', 'user_id'];
+    public $timestamps = false;
+
+    public function publicacao()
+    {
+        return $this->belongsTo(Publicacao::class, 'publicacao_id');
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
