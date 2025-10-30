@@ -21,7 +21,7 @@
                 <p class="h3 mt-3">{{ $empresa->nome }}</p>
                 <hr style="border: 2px solid; border-color: #D97014; width: 70%">
                 <div class="d-flex d-flex justify-content-center">
-                    <p class="h5 mr-5">{{ $likesTotais }}<br>Quantidade <br> Likes</p>
+                    <p class="h5 mr-5">{{ $likesTotais }}<br>Quantidade <br>Likes</p>
                     <p class="h5 ml-5">{{ $dislikesTotais }}<br>Quantidade<br>Dislikes</p>
                 </div>
             </div>
@@ -64,21 +64,37 @@
                             </button>
                         </form>
 
-                        <form action="" method="">
+                        <form action="" method="GET">
                         @csrf
                             <button type="submit" class="btn border-0 bg-transparent botaoDislike" id="botaoDislike">
-                                <img src="{{ asset($disliked ? '/flecha_baixo_cheia.svg' : '/flecha_baixo_vazia.svg') }}" alt="Dislike">
+                                <img src="{{ asset($disliked ? '/flecha_baixo_cheia' : '/flecha_baixo_vazia.svg') }}" alt="Dislike">
                                 {{ $publicacao->descurtidas->count() }}
                             </button>
                         </form>
-                        <!-- <div class="d-flex img-fluid" style="margin-left: auto;">
+                        <div class="d-flex img-fluid" style="margin-left: auto;">
                             <img src="{{ asset('chat.svg') }}" alt="chat" class="ml-4">
-                            <p class="h3 mt-2 ml-2">4</p>
-                        </div> -->
+                            <p class="h3 mt-2 ml-2"></p>
+                        </div>
                     </div>
                 @endforeach
-                </div>
-                @endforeach
+            </div>
+            @endforeach
+        </div>
+                
+                <script>
+                    const botaoLike = document.getElementById('botaoLike');
+                    const botaoDislike = document.getElementById('botaoDislike');
+
+                    botaoLike.addEventListener("click", function () {
+                        event.preventDefault()
+                        modalLogin.showModal()
+                    })
+
+                    botaoDislike.addEventListener("click", function () {
+                        event.preventDefault()
+                        modalLogin.showModal()
+                    })
+                </script>
 
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">

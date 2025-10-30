@@ -21,8 +21,8 @@
                 <p class="h2 mt-4 ">{{ Auth::user()->name }}</p>
                 <hr style="border-top: 3px solid #000; border-color: #D97014; width: 70%">
                 <div class="d-flex justify-content-center">
-                    <p class="h5 mr-5">29<br>Quantidade <br> Likes</p>
-                    <p class="h5 ml-5">12<br>Quantidade<br>Dislikes</p>
+                    <p class="h5 mr-5">{{ $likesTotais }}<br>Quantidade <br> Likes</p>
+                    <p class="h5 ml-5">{{ $dislikesTotais }}<br>Quantidade<br>Dislikes</p>
                 </div>
             </div>
             
@@ -167,9 +167,10 @@
     </div>
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
-                <button type="button" id="btnEntrar">Entrar</button>
-                <script src="{{ asset('js/home.js') }}"></script>
-            </dialog>
+                <form action="{{ route('logout') }}" method="post">
+                @csrf
+                    <button type="submit" id="btnSair">Sair</button>
+                </form>
         </div>
 </body>
 </html>

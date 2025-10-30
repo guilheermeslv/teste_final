@@ -9,6 +9,14 @@ dialog {
     width: 30%;
 }
 
+#btnSair {
+    padding: 5px 100px 5px 100px; 
+    background-color: #D97014;
+    border: none;
+    color: white; 
+    border-radius: 10px;
+}
+
 #btnEntrar {
     padding: 5px 100px 5px 100px; 
     background-color: #D97014;
@@ -32,4 +40,12 @@ dialog {
     border-radius: 8px;
     padding: 2px 80px 2px 80px;
     margin-right: 15px;
+}
+
+.empresa_usuario {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border: 3px solid #D97014;
 }

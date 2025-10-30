@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Empresa;
 use App\Models\Publicacao;
 use App\Models\Avaliacao;
+use App\Models\Curtida;
+use App\Models\Descurtida;
 
 class DashboardController extends Controller
 {
@@ -18,8 +20,10 @@ class DashboardController extends Controller
         $empresa = Empresa::find(1);
         $publicacoes = Publicacao::with('avaliacoes')->get();
         $avaliacoes = Avaliacao::where('user_id', Auth::id())->get();
+        $likesTotais = Curtida::sum('likes');
+        $dislikesTotais = Descurtida::sum('dislikes');
 
-        return view('dashboard', compact('empresa', 'publicacoes', 'avaliacoes'));
+        return view('dashboard', compact('empresa', 'publicacoes', 'avaliacoes', 'likesTotais', 'dislikesTotais'));
     }
 
     /**
