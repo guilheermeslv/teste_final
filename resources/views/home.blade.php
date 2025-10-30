@@ -21,8 +21,8 @@
                 <p class="h3 mt-3">{{ $empresa->nome }}</p>
                 <hr style="border: 2px solid; border-color: #D97014; width: 70%">
                 <div class="d-flex d-flex justify-content-center">
-                    <p class="mr-5 h5">9<br>Quantidade de <br> likes</p>
-                    <p class="h5">12<br>Quantidade de <br>dislikes</p>
+                    <p class="h5 mr-5">{{ $likesTotais }}<br>Quantidade <br> Likes</p>
+                    <p class="h5 ml-5">{{ $dislikesTotais }}<br>Quantidade<br>Dislikes</p>
                 </div>
             </div>
             
@@ -47,19 +47,38 @@
                         <p><strong>{{ $publicacao->local }}</strong></p>
                         <p><strong>{{ $publicacao->cidade}}</strong></p>
                     </div>
+                    
+                @foreach ($publicacao->avaliacoes as $avaliacao)
+                @php
+                    $liked = $publicacao->curtidas->where('user_id', auth()->id())->count() > 0;
+                    $disliked = $publicacao->descurtidas->where('user_id', auth()->id())->count() > 0;
+                @endphp
 
                 <!-- Ícones de like, dislike e comentário -->
-                    <div class="d-flex">
-                        <img src="{{ asset('flecha_cima_vazia.svg') }}" alt="">
-                            <p class="h3 ml-2">2</p>
-                        <img class="ml-3" src="{{ asset('flecha_baixo_vazia.svg') }}" alt="">
-                            <p class="h3 ml-2">1</p>
-                        <img style="margin-left: 570px" src="{{ asset('chat.svg') }}" alt="">
-                            <p class="h3 ml-2">4</p>
+                    <div class="d-flex" >
+                        <form action="" method="GET">
+                        @csrf
+                            <button type="submit" class="btn border-0 bg-transparent botaoLike" id="botaoLike">
+                                <img src="{{ asset($liked ? '/flecha_cima_cheia.svg' : '/flecha_cima_vazia.svg') }}" alt="Like">
+                                {{ $publicacao->curtidas->count() }}
+                            </button>
+                        </form>
+
+                        <form action="" method="">
+                        @csrf
+                            <button type="submit" class="btn border-0 bg-transparent botaoDislike" id="botaoDislike">
+                                <img src="{{ asset($disliked ? '/flecha_baixo_cheia.svg' : '/flecha_baixo_vazia.svg') }}" alt="Dislike">
+                                {{ $publicacao->descurtidas->count() }}
+                            </button>
+                        </form>
+                        <!-- <div class="d-flex img-fluid" style="margin-left: auto;">
+                            <img src="{{ asset('chat.svg') }}" alt="chat" class="ml-4">
+                            <p class="h3 mt-2 ml-2">4</p>
+                        </div> -->
                     </div>
-                </div>
                 @endforeach
                 </div>
+                @endforeach
 
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
