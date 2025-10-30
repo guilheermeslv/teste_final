@@ -69,7 +69,7 @@
 
                                 @php
                                     $liked = $publicacao->curtidas->where('user_id', auth()->id())->count() > 0;
-                                    disliked = $publicacao->descurtidas->where('user_id', auth()->id())->count() > 0;
+                                    $disliked = $publicacao->descurtidas->where('user_id', auth()->id())->count() > 0;
                                 @endphp
 
                                 <form action="{{ route('publicacao.curtida', $publicacao->id) }}" method="POST">
