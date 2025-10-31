@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Sabor do Brasil</title>
 
     <!-- Bootstrap importado: V. 4.1.3 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
 
-        <!-- Coluna 1 -->
+            <!-- Coluna 1 -->
             <div class="col-md-3 text-center py-4 mt-3">
-                <img class="empresa_usuario rounded-circle img-fluid" src="{{ asset(Auth::user()->foto) }}" alt="{{ asset(Auth::user()->nickname) }}">
+                <img class="empresa_usuario rounded-circle img-fluid" src="{{ asset(Auth::user()->foto) }}"
+                    alt="{{ asset(Auth::user()->nickname) }}">
                 <p class="h2 mt-4 ">{{ Auth::user()->name }}</p>
                 <hr style="border-top: 3px solid #000; border-color: #D97014; width: 70%">
                 <div class="d-flex justify-content-center">
@@ -25,95 +29,86 @@
                     <p class="h5 ml-5">{{ $dislikesTotais }}<br>Quantidade<br>Dislikes</p>
                 </div>
             </div>
-            
-        <!-- Coluna 2 -->
+
+            <!-- Coluna 2 -->
             <div class="col-md-6 py-4 border-left bg-light border-right">
 
-            <!-- Header de publicações -->
+                <!-- Header de publicações -->
                 <div>
                     <p class="h1 text-center">Publicações</p>
                     <hr style="border: 2px solid; border-color: #D97014">
                 </div>
 
-            <!-- Imagens das publicações -->
+                <!-- Imagens das publicações -->
                 @foreach ($publicacoes as $publicacao)
                 <div class="card p-2" style="border-radius: 10px">
                     <p class="h2"><strong>{{ $publicacao->titulo_prato }}</strong></p>
                     <div class="text-center">
-                    <img src="{{ asset($publicacao->foto) }}">
+                        <img src="{{ asset($publicacao->foto) }}">
                     </div>
-                <!-- Local e cidade -->
+                    <!-- Local e cidade -->
                     <div class="d-flex h5 justify-content-between p-1 mt-1">
                         <p><strong>{{ $publicacao->local }}</strong></p>
                         <p><strong>{{ $publicacao->cidade}}</strong></p>
                     </div>
-                @foreach ($publicacao->avaliacoes as $avaliacao)
                     <div class="d-flex">
-                        <!-- <form action="{{ route('like') }}" method="POST" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="publicacao_id" value="{{ $avaliacao->publicacao_id }}">
-                                    <button type="submit" class="btn border-0 bg-transparent botaoLike" data-publicacao="{{ $publicacao->id }}">
-                                        <img class="iconeLike" src="{{ asset('flecha_cima_vazia.svg') }}" alt="like" data-publicacao="{{ $publicacao->id }}">
-                                    </button>
-                            </form>
-                            <p class="h3 mt-1 ml-1"> {{ $avaliacao->like }} </p>
-
-                            <form action="{{ route('dislike') }}" method="POST" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="publicacao_id" value="{{ $avaliacao->publicacao_id }}">
-                                    <button type="submit" class="btn border-0 bg-transparent botaoDislike" data-publicacao="{{ $publicacao->id }}">
-                                        <img class="iconeDislike" src="{{ asset('flecha_baixo_vazia.svg') }}" alt="dislike" data-publicacao="{{ $publicacao->id }}">
-                                    </button>
-                            </form>
-                            <p class="h3 mt-1 ml-1 dislikes-count" data-publicacao="{{ $publicacao->id }}">{{ $avaliacao->dislike }}</p> -->
-
+                        <form action="{{ route('publicacao.curtida', $publicacao->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn border-0 bg-transparent botaoLike">
                                 @php
-                                    $liked = $publicacao->curtidas->where('user_id', auth()->id())->count() > 0;
-                                    $disliked = $publicacao->descurtidas->where('user_id', auth()->id())->count() > 0;
+                                $liked = $publicacao->curtidas->where('user_id', auth()->id())->count() > 0;
                                 @endphp
+                                <img src="{{ asset ('imagens/' . ($liked ? 'flecha_cima_cheia.svg' : 'flecha_cima_vazia.svg')) }}"
+                                    alt="Like">
+                                {{ $publicacao->curtidas->count() }}
+                            </button>
+                        </form>
 
-                                <form action="{{ route('publicacao.curtida', $publicacao->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn border-0 bg-transparent botaoLike">
-                                        <img src="{{ asset($liked ? '/flecha_cima_cheia.svg' : '/flecha_cima_vazia.svg') }}" alt="Like">
-                                            {{ $publicacao->curtidas->count() }}
-                                    </button>
-                                </form>
+                        <form action="{{ route('publicacao.descurtida', $publicacao->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn border-0 bg-transparent botaoDislike">
+                                @php
+                                $disliked = $publicacao->descurtidas->where('user_id', auth()->id())->count() > 0;
+                                @endphp
+                                <img src="{{ asset ('imagens/' . ($disliked ? 'flecha_baixo_cheia.svg' : 'flecha_baixo_vazia.svg')) }}"
+                                    alt="Dislike">
+                                {{ $publicacao->descurtidas->count() }}
+                            </button>
+                        </form>
 
-                                <form action="{{ route('publicacao.descurtida', $publicacao->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn border-0 bg-transparent botaoDislike">
-                                        <img src="{{ asset($disliked ? '/flecha_baixo_cheia.svg' : '/flecha_baixo_vazia.svg') }}" alt="Dislike">
-                                            {{ $publicacao->descurtidas->count() }}
-                                    </button>
-                            </form>
+                        <div class="d-flex img-fluid" style="margin-left: auto;">
+                            <img src="{{ asset('chat.svg') }}" alt="chat" class="ml-4">
+                            <p class="h3 mt-2 ml-2"></p>
+                        </div>
                     </div>
-                @endforeach
                 </div>
                 @endforeach
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                function carregarEstado(publicacaoId) {
-                    return localStorage.getItem(`estado_${publicacaoId}`) || null;
-                }
-
-                function salvarEstado(publicacaoId, estado) {
-                    if (estado === null) {
-                        localStorage.removeItem(`estado_${publicacaoId}`);
-                    } else {
-                        localStorage.setItem(`estado_${publicacaoId}`, estado);
+                <!-- Interação com os botões de like e dislike -->
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    function carregarEstado(publicacaoId) {
+                        return localStorage.getItem(`estado_${publicacaoId}`) || null;
                     }
-                }
 
-                function atualizarIcones(publicacaoId) {
-                    const estado = carregarEstado(publicacaoId);
-                    const iconeLike = document.querySelector(`.iconeLike[data-publicacao="${publicacaoId}"]`);
-                    const iconeDislike = document.querySelector(`.iconeDislike[data-publicacao="${publicacaoId}"]`);
+                    function salvarEstado(publicacaoId, estado) {
+                        if (estado === null) {
+                            localStorage.removeItem(`estado_${publicacaoId}`);
+                        } else {
+                            localStorage.setItem(`estado_${publicacaoId}`, estado);
+                        }
+                    }
 
-                    if (iconeLike && iconeDislike) {
-                        iconeLike.src = "{{ asset('flecha_cima_vazia.svg') }}";
-                        iconeDislike.src = "{{ asset('flecha_baixo_vazia.svg') }}";
+                    function atualizarIcones(publicacaoId) {
+                        const estado = carregarEstado(publicacaoId);
+                        const iconeLike = document.querySelector(
+                            `.iconeLike[data-publicacao="${publicacaoId}"]`);
+                        const iconeDislike = document.querySelector(
+                            `.iconeDislike[data-publicacao="${publicacaoId}"]`);
+
+                        if (iconeLike && iconeDislike) {
+                            iconeLike.src = "{{ asset('flecha_cima_vazia.svg') }}";
+                            iconeDislike.src = "{{ asset('flecha_baixo_vazia.svg') }}";
 
                             if (estado === 'like') {
                                 iconeLike.src = "{{ asset('flecha_cima_cheia.svg') }}";
@@ -123,54 +118,79 @@
                         }
                     }
 
-            document.querySelectorAll('.iconeLike').forEach(icone => {
-                const publicacaoId = icone.getAttribute('data-publicacao');
-                    atualizarIcones(publicacaoId);
-                });
-
-            document.querySelectorAll('.botaoLike').forEach(botao => {
-                botao.addEventListener('click', function(e) {
-                e.preventDefault();
-                    const publicacaoId = this.getAttribute('data-publicacao');
-                    const estadoAtual = carregarEstado(publicacaoId);
-
-                        if (estadoAtual === 'like') {
-                            salvarEstado(publicacaoId, null);
-                        } else {
-                            salvarEstado(publicacaoId, 'like');
-                        }
-
+                    document.querySelectorAll('.iconeLike').forEach(icone => {
+                        const publicacaoId = icone.getAttribute('data-publicacao');
                         atualizarIcones(publicacaoId);
-                        
-                        this.closest('form').submit();
+                    });
+
+                    document.querySelectorAll('.botaoLike').forEach(botao => {
+                        botao.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const publicacaoId = this.getAttribute('data-publicacao');
+                            const estadoAtual = carregarEstado(publicacaoId);
+
+                            if (estadoAtual === 'like') {
+                                salvarEstado(publicacaoId, null);
+                            } else {
+                                salvarEstado(publicacaoId, 'like');
+                            }
+
+                            atualizarIcones(publicacaoId);
+
+                            this.closest('form').submit();
                         });
-                });
+                    });
 
-            document.querySelectorAll('.botaoDislike').forEach(botao => {
-                botao.addEventListener('click', function(e) {
-                e.preventDefault();
-                    const publicacaoId = this.getAttribute('data-publicacao');
-                    const estadoAtual = carregarEstado(publicacaoId);
+                    document.querySelectorAll('.botaoDislike').forEach(botao => {
+                        botao.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const publicacaoId = this.getAttribute('data-publicacao');
+                            const estadoAtual = carregarEstado(publicacaoId);
 
-                        if (estadoAtual === 'dislike') {
-                            salvarEstado(publicacaoId, null);
-                        } else {
-                            salvarEstado(publicacaoId, 'dislike');
-                        }
+                            if (estadoAtual === 'dislike') {
+                                salvarEstado(publicacaoId, null);
+                            } else {
+                                salvarEstado(publicacaoId, 'dislike');
+                            }
                             atualizarIcones(publicacaoId);
 
                             this.closest('form').submit();
                         });
                     });
                 });
-        </script>
-    </div>
-        <!-- Coluna 3 -->
+                </script>
+            </div>
+            <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
                 <form action="{{ route('logout') }}" method="post">
-                @csrf
+                    @csrf
                     <button type="submit" id="btnSair">Sair</button>
                 </form>
-        </div>
+            </div>
 </body>
+<footer class="mt-4" style="background-color: #D97014; padding: 50px; width: 100%;">
+    <div class="container">
+        <div class="row text-white align-items-center">
+
+            <!-- Texto da esquerda -->
+            <div class="col-md-4 text-center text-md-left mb-2 mb-md-0" style="font-size: 25px;">
+                <strong>Sabor do Brasil</strong>
+            </div>
+
+            <!-- Ícones do meio -->
+            <div class="col-md-4 text-center d-flex justify-content-center">
+                <img src="{{ asset('Instagram.svg') }}" alt="Instagram" class="mx-3" style="width: 30px;">
+                <img src="{{ asset('Twitter.svg') }}" alt="Twitter" class="mx-3" style="width: 30px;">
+                <img src="{{ asset('Whatsapp.svg') }}" alt="WhatsApp" class="mx-3" style="width: 30px;">
+                <img src="{{ asset('Globe.svg') }}" alt="Site" class="mx-3" style="width: 30px;">
+            </div>
+
+            <!-- Texto da direita -->
+            <div class="col-md-4 text-center text-md-right mt-2 mt-md-0" style="font-size: 25px;">
+                <strong>Copyright - 2024</strong>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </html>
