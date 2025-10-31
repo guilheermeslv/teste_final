@@ -14,6 +14,26 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Copiando estrutura do banco de dados para sabor_do_brasil
+CREATE DATABASE IF NOT EXISTS `sabor_do_brasil` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `sabor_do_brasil`;
+
+-- Copiando estrutura para tabela sabor_do_brasil.avaliacao
+CREATE TABLE IF NOT EXISTS `avaliacao` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `like` tinyint(1) DEFAULT '0',
+  `dislike` tinyint(1) DEFAULT '0',
+  `publicacao_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`publicacao_id`,`user_id`) USING BTREE,
+  KEY `publicacao_id` (`publicacao_id`) USING BTREE,
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Copiando dados para a tabela sabor_do_brasil.avaliacao: ~0 rows (aproximadamente)
+
 -- Copiando estrutura para tabela sabor_do_brasil.cache
 CREATE TABLE IF NOT EXISTS `cache` (
   `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -22,7 +42,10 @@ CREATE TABLE IF NOT EXISTS `cache` (
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sabor_do_brasil.cache: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sabor_do_brasil.cache: ~2 rows (aproximadamente)
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+	('laravel-cache-guilherme@gmail.com|127.0.0.1', 'i:2;', 1761737127),
+	('laravel-cache-guilherme@gmail.com|127.0.0.1:timer', 'i:1761737127;', 1761737127);
 
 -- Copiando estrutura para tabela sabor_do_brasil.cache_locks
 CREATE TABLE IF NOT EXISTS `cache_locks` (
@@ -33,6 +56,35 @@ CREATE TABLE IF NOT EXISTS `cache_locks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Copiando dados para a tabela sabor_do_brasil.cache_locks: ~0 rows (aproximadamente)
+
+-- Copiando estrutura para tabela sabor_do_brasil.curtida
+CREATE TABLE IF NOT EXISTS `curtida` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `likes` tinyint(1) DEFAULT '0',
+  `user_id` int NOT NULL,
+  `publicacao_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `publicacao_id` (`publicacao_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Copiando dados para a tabela sabor_do_brasil.curtida: ~0 rows (aproximadamente)
+
+-- Copiando estrutura para tabela sabor_do_brasil.descurtida
+CREATE TABLE IF NOT EXISTS `descurtida` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `dislikes` tinyint(1) NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL,
+  `publicacao_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `publicacao_id` (`publicacao_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Copiando dados para a tabela sabor_do_brasil.descurtida: ~0 rows (aproximadamente)
+INSERT INTO `descurtida` (`id`, `dislikes`, `user_id`, `publicacao_id`) VALUES
+	(2, 1, 1, 1),
+	(3, 1, 3, 1);
 
 -- Copiando estrutura para tabela sabor_do_brasil.empresa
 CREATE TABLE IF NOT EXISTS `empresa` (
@@ -124,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `publicacao` (
   `id` int NOT NULL AUTO_INCREMENT,
   `foto` varchar(100) NOT NULL,
   `titulo_prato` varchar(255) NOT NULL,
-  `LOCAL` varchar(255) NOT NULL,
+  `local` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cidade` varchar(255) NOT NULL,
   `empresa_id` int DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
@@ -135,10 +187,10 @@ CREATE TABLE IF NOT EXISTS `publicacao` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela sabor_do_brasil.publicacao: ~3 rows (aproximadamente)
-INSERT INTO `publicacao` (`id`, `foto`, `titulo_prato`, `LOCAL`, `cidade`, `empresa_id`, `createdAt`, `updatedAt`) VALUES
-	(1, 'publicacao01.png', 'Titulo do Prato 01', 'Local 01', 'Maceio-AL', 1, '2023-02-22 09:15:55', '2023-09-22 09:18:55'),
-	(2, 'publicacao02.png', 'Titulo do Prato 02', 'Local 02', 'Minas Gerais-MG', 1, '2023-02-22 09:10:55', '2023-02-22 09:16:55'),
-	(3, 'publicacao03.png', 'Titulo do Prato 03', 'Local 03', 'Rio de Janeiro-RJ', 1, '2023-05-22 09:13:55', '2023-02-22 09:15:55');
+INSERT INTO `publicacao` (`id`, `foto`, `titulo_prato`, `local`, `cidade`, `empresa_id`, `createdAt`, `updatedAt`) VALUES
+	(1, 'publicacao01.png', 'Peixe grelhado', 'Vale do Paraíso', 'Teresópolis-RJ', 1, '2023-02-22 09:15:55', '2023-09-22 09:18:55'),
+	(2, 'publicacao02.png', 'Cuscuz paulista', 'Canão', 'São Paulo-SP', 1, '2023-02-22 09:10:55', '2023-02-22 09:16:55'),
+	(3, 'publicacao03.png', 'Frango com batatas assadas', 'Promorar', 'Teresina-PI', 1, '2023-05-22 09:13:55', '2023-02-22 09:15:55');
 
 -- Copiando estrutura para tabela sabor_do_brasil.sessions
 CREATE TABLE IF NOT EXISTS `sessions` (
@@ -155,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 -- Copiando dados para a tabela sabor_do_brasil.sessions: ~1 rows (aproximadamente)
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-	('9g6b1hUlAQljTc6XHwXhqUZAr8rGOwqjeqN1Ukhd', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaEhtYWNVeVVOZXp2Wld2bGRMa29YVGZXejAzd0U4ekdKSUY0VWo0eSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wdWJsaWNhY2FvIjt9fQ==', 1761229048);
+	('Y5X0HSPA4uR3CYzWped5KYngUfn6mEQAdewUUxnx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOXZaeExqUTlaeGV1c1RTdHNISnhZeHhwWEJzV1lBYVR1Qk41dERWaSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1761915621);
 
 -- Copiando estrutura para tabela sabor_do_brasil.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -171,11 +223,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Copiando dados para a tabela sabor_do_brasil.users: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sabor_do_brasil.users: ~3 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `nickname`, `foto`) VALUES
-	(1, 'usuario01', 'usuario01@usuario.com', NULL, '$2y$12$ilCfWSIHVoAkon1ah7AWVOGkt7QuIqbtL5f09h6363xPHXd7sW1xW', NULL, '2025-10-22 16:47:21', '2025-10-22 16:47:21', 'usuario_01', 'usuario_01.jpg');
+	(1, 'usuario01', 'usuario01@usuario.com', NULL, '$2y$12$ilCfWSIHVoAkon1ah7AWVOGkt7QuIqbtL5f09h6363xPHXd7sW1xW', NULL, '2025-10-22 16:47:21', '2025-10-22 16:47:21', 'usuario_01', 'usuario_01.jpg'),
+	(2, 'usuario02', 'usuario02@usuario.com', NULL, '$2y$12$3w.mzf.klgU/Ec0YTDLVr.8f/AcloPBsbsMO3YpNKUVTiLyyNsbCW', NULL, '2025-10-30 17:48:03', '2025-10-30 17:48:03', 'usuario_02', 'usuario_02.jpg'),
+	(3, 'usuario03', 'usuario03@usuario.com', NULL, '$2y$12$o/iOXZqFaiXle6tLbAeaDOL.boFZ.EhhKg7Yfd3NHS2.H8Xc62Qp6', NULL, '2025-10-30 17:52:27', '2025-10-30 17:52:27', 'usuario_03', 'usuario_03.jpg');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
