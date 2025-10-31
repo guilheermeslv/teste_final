@@ -49,3 +49,9 @@ dialog {
     object-position: center;
     border: 3px solid #D97014;
 }
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}

@@ -41,7 +41,7 @@
                     <p class="h2"><strong>{{ $publicacao->titulo_prato }}</strong></p>
                     <div class="text-center">
                     <img src="{{ asset($publicacao->foto) }}">
-                    </div>
+                </div>
                 <!-- Local e cidade -->
                     <div class="d-flex h5 justify-content-between p-1 mt-1">
                         <p><strong>{{ $publicacao->local }}</strong></p>
@@ -55,22 +55,23 @@
                 @endphp
 
                 <!-- Ícones de like, dislike e comentário -->
-                    <div class="d-flex" >
-                        <form action="" method="GET">
+                    <div class="d-flex">
+                        <form action="{{ route('publicacao.curtida', $publicacao->id) }}" method="GET">
                         @csrf
-                            <button type="submit" class="btn border-0 bg-transparent botaoLike" id="botaoLike">
-                                <img src="{{ asset($liked ? '/flecha_cima_cheia.svg' : '/flecha_cima_vazia.svg') }}" alt="Like">
+                            <button type="submit" class="btn border-0 bg-transparent botaoLike">
+                                <img src="{{ asset($liked ? 'flecha_cima_cheia.svg' : 'flecha_cima_vazia.svg') }}" alt="Like">
                                 {{ $publicacao->curtidas->count() }}
                             </button>
                         </form>
 
-                        <form action="" method="GET">
+                        <form action="{{ route('publicacao.descurtida', $publicacao->id) }}" method="GET">
                         @csrf
-                            <button type="submit" class="btn border-0 bg-transparent botaoDislike" id="botaoDislike">
-                                <img src="{{ asset($disliked ? '/flecha_baixo_cheia' : '/flecha_baixo_vazia.svg') }}" alt="Dislike">
+                            <button type="submit" class="btn border-0 bg-transparent botaoDislike">
+                                <img src="{{ asset($disliked ? 'flecha_baixo_cheia.svg' : 'flecha_baixo_vazia.svg') }}" alt="Dislike">
                                 {{ $publicacao->descurtidas->count() }}
                             </button>
                         </form>
+
                         <div class="d-flex img-fluid" style="margin-left: auto;">
                             <img src="{{ asset('chat.svg') }}" alt="chat" class="ml-4">
                             <p class="h3 mt-2 ml-2"></p>
@@ -87,25 +88,26 @@
 
                     botaoLike.addEventListener("click", function () {
                         event.preventDefault()
-                        modalLogin.showModal()
+                        modal.showModal()
                     })
 
                     botaoDislike.addEventListener("click", function () {
                         event.preventDefault()
-                        modalLogin.showModal()
+                        modal.showModal()
                     })
                 </script>
 
         <!-- Coluna 3 -->
             <div class="col-md-3 d-flex flex-column align-items-center justify-content-start py-4">
                 <button type="button" id="btnEntrar">Entrar</button>
+
         <!-- Modal de login -->
             <dialog>
                     <h4 class="text-center mb-3">Login</h4>
+
                 <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <!-- Email -->
-                
                     <div class="form-group">
                         <x-text-input id="email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Digite seu e-mail"/>
                         <x-input-error :messages="$errors->get('email')" class="mt-2"/>
@@ -116,6 +118,7 @@
                         <x-text-input id="password" class="block mt-1 w-full form-control" type="password" name="password" required autocomplete="current-password" placeholder="Digite sua senha"/>
                         <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                     </div>
+                    
                 <!-- Botões Cancelar e Logar -->
                     <div class="d-flex justify-between mb-2 ">
                         <button id="btnFormCancelar">Cancelar</button>
